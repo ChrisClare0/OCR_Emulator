@@ -1,0 +1,102 @@
+﻿OCR Emulator Help....
+
+TO START:
+
+Write your Assembler code in notepad or (whatever is similar on MACS/Linux..).
+Paste it into the code window below. Then use the "Read Code" button to read it in and "Assemble" it.
+You can then STEP through the code line by line...or "fetch-execute" by fetch-execute"
+
+NUMBERS:
+
+All data is in hex. Live with it.
+
+SYNTAX:
+
+The source file needs to have three columns.These can be serarated by spaces or tabs(preferred!)
+The first column will be the label or be left blank. The second the opcode and the third registers etc..
+so
+label:	op	detail
+
+eg:-
+fred:	movi	S0,66
+	mov	S0,S1
+		
+note that line without a label must start with tab or space...
+and the opcode must be followed with a space or tab so the following won't do!
+
+movi S0,ff    (no space/tab before the opcode)
+moviS0,FF     (no separator between opcode and data)
+
+also we don't like...
+		movi	S0,   FF     (space after , not allowed)
+		mov  i	S0,FF		 (no gaps in opcodes)		
+		movi	S0   ,FF     (no gaps in data)
+	
+There must be NO SPACES within the fields...(although in fact the last one does work!)
+
+
+LABELS:
+
+Labels must end with a :
+There is (at present v1.1) no checking on duplicates, so you need to make sure they are unique.
+Labels can be any length must must not include control characters or the reserved words READADC, 
+WAIT1MS and READTABLE. 
+
+CASE:
+
+Case is always ignored so the following are equivalent
+fred:	movi	S0,66
+FRED:	MOVI	S0,66
+
+COMMENTS:
+
+Comments are introduced by a semicolon; this is a good use for it as few people know how to use it in 
+ordinary English these days.  Anything on a line following a ; is ignored
+fred:	movi	S0,66   ;this is a comment  mov s,so ( still part of the comment)
+;a comment fred:	movi	S0,66 so this is all ignored
+
+
+REGISTERS:
+
+Registers are S0 - S7... (wierd - but I didn't design this!)
+
+and (non-standardly) are always  destination , source
+so mov S0,S1 moves FROM S1 TO S0
+
+
+TABLES:
+
+The specification allows a datatable at TABLE:
+Data is read using RCALL READTABLE.
+This subroutine returns in S0 the byte in the table offset by S7.
+ie if S7 = 2 , the second byte in the table is returned.
+
+A table may be set up as follows (and MUST be before you use the call!):
+
+TABLE:	BYTE	01
+	BYTE	02
+	BYTE	04
+	BYTE	08
+	BYTE	10
+	BYTE	20
+	BYTE	40
+	BYTE	80
+		
+(The directive EQUB is equivalent to BYTE in memory of motorola!)
+
+Now the following:
+	movi	S7,2
+	rcall	readtable
+
+will return with S0=04. OK?
+
+ADC:
+
+The ADC converts a voltage between 0-5V to a number with 8bit resolution.
+RCALL READADC returns the value in S0;
+
+
+COMMENTS: 
+
+Please feed comments and errors to CC...
+(I wrote this one day on my holiday (Sunday 26/7/09) when it rained all day and so it is likely to have bugs/design features that are un-intended. Please test and report!)

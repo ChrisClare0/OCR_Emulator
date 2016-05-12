@@ -1,0 +1,133 @@
+;Using 16F73 to emulate OCR processor
+
+	LIST   P=PIC16F73              ; list directive to define processor
+	#include <p16F73.inc>         ; processor specific variable definitions
+
+	__CONFIG    _WDT_OFF & _PWRTE_OFF &  _XT_OSC 
+;**********************************************************************
+;***** VARIABLE DEFINITIONS
+;the data memory starts at 0x20
+R0			equ		0x20		;Emulate S0
+R1			equ		0x21		;Emulate S1
+R2			equ		0x22		;Emulate S2
+R3			equ		0x23		;Emulate S3
+R4			equ		0x24		;Emulate S4
+R5			equ		0x25		;Emulate S5
+R6			equ		0x26		;Emulate S6
+R7			equ		0x27		;Emulate S7
+w_temp      equ     0x28        ; variable used for context saving 
+status_temp equ     0x29        ; variable used for context saving
+temp1		equ		0x2a		;following used for gen purpose in routines
+temp2		equ		0x2b
+A0			equ		0x2c
+A1			equ		0x2d
+A2			equ		0x2e
+
+;**********************************************************************
+		ORG     0x000             ; processor reset vector
+		goto    setup              ; go to beginning of program
+
+		ORG     0x004             ; interrupt vector location
+		movwf   w_temp            ; save off current W register contents
+		movf	STATUS,w          ; move status register into W register
+		movwf	status_temp       ; save off contents of STATUS register
+
+		movf    status_temp,w     ; retrieve copy of STATUS register
+		movwf	STATUS            ; restore pre-isr STATUS register contents
+		swapf   w_temp,f
+		swapf   w_temp,w          ; restore pre-isr W register contents
+		retfie                    ; return from interrupt
+;**********************************************************************
+setup
+;setup ports
+;PORTC AS OUTPUT
+	BANKSEL	PORTC
+	CLRF	PORTC
+	BANKSEL	TRISC
+	MOVLW	B'00000000'
+	MOVWF	TRISC
+;PORTB as input
+	BANKSEL	PORTB
+	clrf	PORTB
+	BANKSEL	TRISB
+	movlw	B'11111111'
+	movwf	TRISB
+;AD on RA0
+	banksel ADCON1
+	movlw	b'00000100'	;internal ref, using RA0,1,3
+	movwf	ADCON1
+	banksel	ADCON0
+	movlw	b'01000001'	;clock is fosc/8, chan0, operating
+	movwf	ADCON0
+	call	WAIT1MS		;delay for aquis
+	BANKSEL	PORTA
+	goto	main
+
+;**********************************************************************
+;routines for the OCR macros
+WAIT1MS
+	movlw	0
+	movwf	temp1
+	decfsz	temp1,1
+	goto	$-1
+	return
+;
+READTABLE
+;R7 points to table
+	bsf		STATUS, RP1
+	BCF		STATUS,RP0
+	movlw 	0x04
+	movwf	PMADRH
+	movf	R7,W
+	movwf	PMADR
+	bsf		STATUS,RP0
+	bsf		PMCON1,RD
+	nop
+	nop
+	bcf		STATUS,RP0
+	movf	PMDATA,W
+	movwf	R0
+	BANKSEL	PORTC
+	return
+
+READADC
+;return result in R0	
+	banksel	ADCON0
+	movlw	b'01000101'	;set go
+	movwf	ADCON0
+	btfsc	ADCON0,2
+	goto	$-1
+	movf	ADRES,W
+	movwf	R0
+	return
+
+;about 325 ms at 4MHz
+delay
+		movlw	0xff
+		movwf	A1
+d0
+		movwf	A0
+d1
+		decfsz	A0,F
+		goto	d1
+		decfsz	A1,F
+		goto	d0
+		return
+
+delay1
+;A2 has no of loops on entry
+		movlw	0xff
+		movwf	A1
+delay10
+		movwf	A0
+delay11
+		decfsz	A0,F
+		goto	delay11
+		decfsz	A1,F
+		goto	delay10
+		decfsz	A2,F
+		goto	delay1
+		return
+;**********************************************************************
+;main pogram follows here
+main

@@ -1,0 +1,16 @@
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.exe.config
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.exe.manifest
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.application
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.exe
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.pdb
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\ResolveAssemblyReference.cache
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.EmulatorHelp.resources
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.Form1.resources
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.InCircuitProgramer.resources
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.Properties.Resources.resources
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.Resource1.resources
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.csproj.GenerateResource.Cache
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.exe.manifest
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.application
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.exe
+C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.pdb
