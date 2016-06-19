@@ -16,5 +16,11 @@ namespace OCREmulator
             InitializeComponent();
             richTextBox1.Text=Resource1.EmulatorHelp;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ChipPinout d1 = new ChipPinout();
+            d1.ShowDialog();
+        }
     }
 }

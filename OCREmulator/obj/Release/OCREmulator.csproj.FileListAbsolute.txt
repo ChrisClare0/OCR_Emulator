@@ -14,3 +14,43 @@ C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Re
 C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.application
 C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.exe
 C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.pdb
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.exe.config
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.exe.manifest
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.application
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.exe
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.pdb
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Release\SerialProgrammer.dll
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Release\SerialProgrammer.pdb
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.csprojResolveAssemblyReference.cache
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.BreakWindow.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.ChipPinout.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.EmulatorHelp.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.Form1.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.InCircuitProgramer.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.Properties.Resources.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.Resource1.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.csproj.GenerateResource.Cache
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.exe.manifest
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.application
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.exe
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.pdb
+D:\Users\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.exe.config
+D:\Users\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.exe.manifest
+D:\Users\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.application
+D:\Users\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.exe
+D:\Users\Projects\OCREmulator\OCREmulator\bin\Release\OCREmulator.pdb
+D:\Users\Projects\OCREmulator\OCREmulator\bin\Release\SerialProgrammer.dll
+D:\Users\Projects\OCREmulator\OCREmulator\bin\Release\SerialProgrammer.pdb
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.csprojResolveAssemblyReference.cache
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.BreakWindow.resources
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.ChipPinout.resources
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.EmulatorHelp.resources
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.Form1.resources
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.InCircuitProgramer.resources
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.Properties.Resources.resources
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.Resource1.resources
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.csproj.GenerateResource.Cache
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.exe.manifest
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.application
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.exe
+D:\Users\Projects\OCREmulator\OCREmulator\obj\Release\OCREmulator.pdb

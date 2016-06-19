@@ -1,13 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PublishUrlHistory>f:\OcrEmulator\deploy\</PublishUrlHistory>
-    <InstallUrlHistory>
-    </InstallUrlHistory>
+    <PublishUrlHistory>F:\Deploy code\ocrEmulator\|U:\beta-challoners\StudentInformation\OCREmulator\|U:\\OCREmulator\|U:\student-web\OCREmulator\|Z:\student-web\OCREmulator\</PublishUrlHistory>
+    <InstallUrlHistory>https://internal.challoners.com/x/beta/studentinformation/OCRemulator/|http://students.challoners.com/OCREmulator/|http://students.challoners.com/FlowDiagrams/|http://archive.challoners.com/ocremulator/|http://archive.challoners.com/OCREmulator/</InstallUrlHistory>
     <SupportUrlHistory>
     </SupportUrlHistory>
-    <UpdateUrlHistory>
-    </UpdateUrlHistory>
+    <UpdateUrlHistory>https://internal.challoners.com/x/beta/studentinformation/OCRemulator/</UpdateUrlHistory>
     <BootstrapperUrlHistory>
     </BootstrapperUrlHistory>
     <ErrorReportUrlHistory>

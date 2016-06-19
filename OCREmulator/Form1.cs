@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SerialProgrammer;
 
 namespace OCREmulator
 {
@@ -17,64 +18,61 @@ namespace OCREmulator
         public bool Has_External_Emulator = false;
         public int Hex_Output_start = 0x500;
         public string[] hexcode = new string[255];
-
-        [System.Runtime.InteropServices.DllImport("K8055D.dll")]
-        private static extern int OpenDevice(int CardAddress);
-        [System.Runtime.InteropServices.DllImport("K8055D.dll")]
-        private static extern void WriteAllDigital(int Data);
-        [System.Runtime.InteropServices.DllImport("K8055D.dll")]
-        private static extern void CloseDevice();
-        [System.Runtime.InteropServices.DllImport("K8055D.dll")]
-        private static extern int ReadAllDigital();
-
+        private SerialProgrammer.SerialProgrammer serialP = new SerialProgrammer.SerialProgrammer();
+        
         public Form1()
         {
             InitializeComponent();
             listBox_ProcessorType.SelectedIndex = 0;
-            if (OpenDevice(0) == -1)
-            {
-                Has_External_Emulator = false;
-                checkBox_ExtEmulator.Enabled = false;
-                checkBox_ExtEmulator.Checked = false;
-            }
-            else
-            {
-                checkBox_ExtEmulator.Enabled = true;
-                checkBox_ExtEmulator.Checked = false;
-                Has_External_Emulator = true;
-            }
-            CloseDevice();
-            label_version.Text = "Version " + Application.ProductVersion;
+            Has_External_Emulator = false;    
+            ProgramText.AcceptsTab = true;
 
+
+            label_version.Text = Application.ProductName + " Version = ";
+            try
+            {
+                label_version.Text += System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+            }
+            catch
+            {
+                label_version.Text += System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            }
         }
 
         protected void Button_Parse_Click()
         {
-            //parse text
             string s = ProgramText.Text;//get text
-            string s2 = ""; int asm_no = 0; string s3 = "";
+            SerialProgrammer.SerialProgrammer serialP = new SerialProgrammer.SerialProgrammer();
             string line = ""; string s1 = ""; int n = 0;
             string label = ""; int Rd = 0; int Rs = 0; string data = ""; string op = "";
             int i = 0;
-            micro.asmcodelines = 0;
+
             micro.maxcodelines = 0; micro.maxlabels = 0;
             while (s.Length > 0)
             {
-                line = s; i = s.IndexOf((char)0x0d);
+                line = s; 
+                i = s.IndexOf((char)0x0d);
                 if (i >= 0)
                 {
                     //multi line.. so split it..
-                    line = s.Substring(0, i); s = s.Substring(i + 2);
+                    line = s.Substring(0, i); 
+                    s = s.Substring(i + 2);
                 }
                 else s = "";
                 label = ""; op = "";
                 s1 = line;//preserve orig line
-                if (!DecodeLine(ref s1, ref label, ref op, ref Rs, ref Rd, ref data))
+                if (!serialP.DecodeLine(ref s1, ref label, ref op, ref Rs, ref Rd, ref data))
                 {//we have an error...
-                    TextBox_Info.Text = s1 + "at line " + n.ToString() + "   :" + line; return;
+                    TextBox_Info.Text = s1 + "at line " + n.ToString() + "   :" + line;
+                    n = ProgramText.Text.IndexOf(line);
+                    ProgramText.SelectionStart = n;
+                    ProgramText.SelectionLength = line.Length;
+                    ProgramText.Focus();
+                    UpdateView(true);
+                    return;
                 }
-                s1 = line; asm_no = 0;
-                ProcessLine_ToAssembler(s1, ref s2, ref s3, ref asm_no);
+                s1 = line;
+
                 if (label == "TABLE")
                 {
                     micro.table = micro.maxcodelines;
@@ -83,24 +81,23 @@ namespace OCREmulator
                 {
                     micro.labels[micro.maxlabels] = label;
                     micro.labelvalues[micro.maxlabels] = micro.maxcodelines;
-                    micro.labelvalues_code[micro.maxlabels] = micro.asmcodelines;
                     micro.maxlabels++;
                 }
                 if ((op == "BYTE") || (op == "EQUB"))//emulator only
                 {
                     micro.memory[micro.maxcodelines] = data;
-                    micro.maxcodelines++;
-                    op = "";
+                    //micro.maxcodelines++;
+                    //op = "";
                 }
                 if (op != "")
                 {
                     micro.memory[micro.maxcodelines] = line;
                     micro.maxcodelines++;
-                    micro.asmcodelines += asm_no;
                 }
                 n++;
             }
             Reset(); Reset();
+            TextBox_Info.Text = "Ready";
             UpdateView(true);
 
         }
@@ -140,13 +137,7 @@ namespace OCREmulator
                 j--;
             }
             v = micro.outport;
-            if (Has_External_Emulator && checkBox_ExtEmulator.Checked)
-            {
-                int d1 = OpenDevice(0);
-                WriteAllDigital(v);
-                CloseDevice();
-                
-            }
+
             textBox_OutputPort.Text = v.ToString("X2");
             //Clock_Out.Text = (((double)micro.clock) / 1000).ToString();
             if (fullupdate)
@@ -155,243 +146,42 @@ namespace OCREmulator
                 s = micro.CurrentZ.ToString();
                 if (textBox_Z.Text != s) textBox_Z.ForeColor = red;
                 textBox_Z.Text = s;
+
+                textBox_C.ForeColor = black;
+                s = micro.CurrentC.ToString();
+                if (textBox_C.Text != s) textBox_C.ForeColor = red;
+                textBox_C.Text = s;
+
+
             }
-        }
-
-
-        protected bool ProcessLine_ToAssembler(string input,ref string line,ref string hexline,ref int no_lines)
-        {
-            string nl = Environment.NewLine;
-            char t1 = (char)0x09; string t = ""; t += t1;
-            line = line.ToUpper();
-            string label = ""; int i = 0;
-            string op = "";
-            string data = ""; int Rs = 0; int Rd = 0;
-            if (!DecodeLine(ref input, ref label, ref op, ref Rs, ref Rd, ref data))
-            {
-                return false;
-            }
-            line = "";
-            if (op == "BLANK") return true;
-            if (op == "") return true;
-            if (label == "TABLE")
-            {line += t + "ORG 0x400" + t + nl + label + nl + t; }
-            else { line += label + (char)0x09; }
-
-
-
-            switch (op)
-            {
-                case "":
-                    line += "nop"+nl;
-                    hexline += 0000; no_lines+= 1;
-                    break;
-                case "MOVI":
-                    line += "movlw " + t + "0x" + data + nl;
-                    line += t + "movwf" + t + "R" + Rd.ToString() + nl;
-                    if (data.Length == 1) data = "0" + data;
-                    hexline += "30" + data;// movlw
-                    hexline += "00"+(Rd + 0xA0).ToString("X");//movwf
-                    no_lines+= 2;
-                    break;
-                case "MOV":
-                    line += "movf" + t + "R" + Rs.ToString() + ",0 " + nl;//ie to W
-                    line += t + "movwf" + t + "R" + Rd.ToString() + nl;
-                    if (data.Length == 1) data = "0" + data;
-                    hexline += "08" + (Rs + 0x20).ToString("X");//movf to W
-                    hexline += "00" + (Rd + 0xA0).ToString("X");//movwf
-                    no_lines+= 2;
-                    break;
-                case "ADD":
-                    line += "movf" + t + "R" + Rs.ToString() + ",0 " + nl;
-                    line += t + "addwf" + t + "R" + Rd.ToString() + ",1 " + nl;
-                    hexline += "08" + (Rs + 0x20).ToString("X");//movf to W
-                    hexline += "07" + (Rd + 0xA0).ToString("X");//addwf
-                    no_lines+= 2;
-                    break;
-                case "SUB":
-                    line += "movf" + t + "R" + Rs.ToString() + ",0 " + nl;
-                    line += t + "subwf" + t + "R" + Rd.ToString() + ",1 " + nl;
-                    hexline += "08" + (Rs + 0x20).ToString("X");//movf to W
-                    hexline += "02" + (Rd + 0xA0).ToString("X");//subwf to F
-                    no_lines+= 2;
-                    break;
-                case "AND":
-                    line += "movf" + t + "R" + Rs.ToString() + ",0 " + nl;
-                    line += t + "andwf" + t + "R" + Rd.ToString() + ",1 " + nl;
-                    hexline += "08" + (Rs + 0x20).ToString("X");//movf to W
-                    hexline += "05" + (Rd + 0xA0).ToString("X");//subwf to F                   
-                    no_lines+= 2;
-                    break;
-                case "EOR":
-                    line += "movf" + t + "R" + Rs.ToString() + ",0 " + nl;
-                    line += t + "xorwf" + t + "R" + Rd.ToString() + ",1 " + nl;
-                    hexline += "08" + (Rs + 0x20).ToString("X");//movf to W
-                    hexline += "06" + (Rd + 0xA0).ToString("X");//subwf to F
-                    no_lines+= 2;
-                    break;
-                case "INC":
-                    line += "incf" + t + "R" + Rd.ToString() + ",1 " + nl;
-                    hexline += "0A" + (Rd + 0xA0).ToString("X");//incf to F
-                    no_lines+= 1;
-                    break;
-                case "DEC":
-                    line += "decf" + t + "R" + Rd.ToString() + ",1 " + nl;
-                    hexline += "03" + (Rd + 0xA0).ToString("X");//decf to F
-                    no_lines+= 1;
-                    break;
-                case "IN":
-                    //read from portB
-                    line += "movf" + t + "PORTB,0" + nl;
-                    line += t + "movwf" + t + "R" + Rd.ToString() + nl;
-                    hexline += "0806";//movf to W
-                    hexline += "00" + (Rd + 0xA0).ToString("X");//movwf
-                    no_lines+= 2;
-
-                    break;
-                case "OUT":
-                    line += "movf" + t + "R" + Rs.ToString() + ",0" + nl;
-                    line += t + "movwf" + t + "PORTC" + nl;
-                    //tricky here cos bits 0-5 can go to port C, but b6/7 to Port A bits 4/5
-                    
-                    //asm code....
-                    //  movf    Rs,W
-                    hexline += "08" + (Rs + 0x20).ToString("X");//movf to W
-                    //  movwf   PORTC   dont think this messes up serial...
-                    hexline += "0087";
-                    //  movwf   temp
-                    hexline += "00AA" ;//temp1 is at 2A
-                    //  rrf     temp1,1
-                    hexline += "0CAA";
-                    //  rrf     temp1,1    bit 7 - 5
-                    hexline += "0CAA";
-                    //  movlw   0x30
-                    hexline += "3030";
-                    //  andwf   temp1,0
-                    hexline += "052A";
-                    //  movwf   PORTA
-                    hexline += "0085";
-                    no_lines+= 8;
-
-                    break;
-                case "JP":
-                    line += "goto" + t + data + nl;
-                    i = 0x800 + FindLabel_asm(data) + Hex_Output_start;
-                    hexline += "2" + i.ToString("X");//goto... 
-                    no_lines+= 1;
-                    break;
-                case "JZ":
-                    line += "btfsc" + t + "STATUS,2" + nl;
-                    line += t + "goto" + t + data + nl;
-                    hexline += "1903";// status = 3
-                    i = 0x800 + FindLabel_asm(data) + Hex_Output_start;
-                    hexline += "2" + i.ToString("X");//goto... 
-                    no_lines += 2;
-                    break;
-                case "JNZ":
-                    line += "btfss" + t + "STATUS,2" + nl;
-                    line += t + "goto" + t + data + nl;
-                    hexline += "1D03";// status = 3
-                    i = 0x800 + FindLabel_asm(data) + Hex_Output_start;
-                    hexline += "2" + i.ToString("X");//goto... 
-                    no_lines += 2;
-                    break;
-                case "RCALL":
-                    line += "call" + t + data + nl;
-                    i = FindLabel_asm(data) + Hex_Output_start;
-                    hexline += "2" + i.ToString("X");//goto... 
-                    no_lines += 1;
-                    break;
-                case "RET":
-                    line += "return" + nl;
-                    hexline += "0008";//ret. 
-                    no_lines += 1;
-                    break;
-                case "SHL":
-                    //need to clear C first
-                    line += "bcf" + t + "STATUS,0" + nl;
-                    line += t + "rlf" + t + "R" + Rd.ToString() + ",1" + nl;
-                    hexline += "1003";
-                    hexline += "0D"+(Rs + 0xA0).ToString("X");
-                    no_lines += 2;
-                    break;
-                case "SHR":
-                    //need to clear C first
-                    line += "bcf" + t + "STATUS,0" + nl;
-                    line += t + "rrf" + t + "R" + Rd.ToString() + ",1" + nl;
-                    hexline += "1003";
-                    hexline += "0C" + (Rs + 0xA0).ToString("X");
-                    no_lines += 2;
-                    break;
-                case "EQUB":
-                    line += "db" + t + "0x00, 0x" + data + nl;
-                    if (data.Length == 1) data = "0" + data;
-                    hexline += "00" + data;
-                    no_lines += 1;
-                    break;
-                case "BYTE":
-                    line += "db" + t + "0x00, 0x" + data + nl;
-                    if (data.Length == 1) data = "0" + data;
-                    hexline += "00" + data;
-                    no_lines += 1;
-                    break;
-                default:
-                    break;
-            }
-            return true;
         }
         protected void Cross_Assemble()
         {
-            int no_linescode = 0;
+            Button_Parse_Click();//check we have the OCR code in micro.memory
             if (micro.maxcodelines == 0) { TextBox_Info.Text = "No code!"; return; }
             Processor_Type = listBox_ProcessorType.SelectedItem.ToString();
-            textBox_PICOutput.Text = "";
-            string line = "";
             string s = "";
-            string outputASM = "";
-            string outputHEX = "";
+
             switch (Processor_Type)
             {
-                case "16F73": textBox_PICOutput.Text = Resource1.setup_16F73;
-                    break;
-
-                case "16F876": textBox_PICOutput.Text = Resource1.setup_16F876;
-                    break;
-
-                default: textBox_PICOutput.Text = "Unknown Processor " + Processor_Type;
-                    break;
+                case "16F73": textBox_PICOutput.Text = Resource1.setup_16F73;break;
+                case "16F876_NoSerial": textBox_PICOutput.Text = Resource1.setup_16F876;break;
+                case "16F876A (+ Serial Support)": textBox_PICOutput.Text = "#define Use16F876A"+Resource1.setup_16F8xx; break;
+                case "16F876 (+ Serial Support)": textBox_PICOutput.Text = "#define Use16F876" + Resource1.setup_16F8xx; break;
+                case "16F886 (+ Serial Support)": textBox_PICOutput.Text = "#define Use16F886" + Resource1.setup_16F8xx; break;
+                default: textBox_PICOutput.Text = "Unknown Processor " + Processor_Type; return;
             }
 
-            s = ProgramText.Text;//get text
-            string s1 = ""; int n = 0;
-            int i = 0;
-            //micro.maxcodelines = 0; micro.maxlabels = 0;
-            while (s.Length > 0)
+            SerialProgrammer.SerialProgrammer p1 = new SerialProgrammer.SerialProgrammer();
+            for (int i = 0; i < micro.maxcodelines; i++) p1.OCRCode[i] = micro.memory[i];
+            p1.max_OCRlines = micro.maxcodelines;
+            if (!p1.GenerateMC(ref s, true ))
             {
-                line = s; 
-                i = s.IndexOf((char)0x0d);
-                if (i >= 0)
-                {
-                    //multi line.. so split it..
-                    line = s.Substring(0, i); 
-                    s = s.Substring(i + 2);
-                }
-                else s = "";
-                s1 = line;//preserve orig line
-                outputHEX = ""; outputASM = "";
-                if (!ProcessLine_ToAssembler(s1,ref outputASM, ref outputHEX, ref no_linescode))
-                {//we have an error...
-                    TextBox_Info.Text = s1 + "at line " + n.ToString() + "   :" + line; return;
-                }
-                //no error so add the code
-                textBox_PICOutput.Text += outputASM;
-                hexcode[n] = outputHEX;
-                n++;
-                //done one ocr line...
-            }
-            textBox_PICOutput.Text += "    END";
-            textBox_PICOutput.Visible = true;
-
+                TextBox_Info.Text = "ERROR: " + s; 
+                return;
+            }//note for output is on PORTC
+            for(int i =0; i<p1.max_ASMlines;i++){textBox_PICOutput.Text += p1.AssemblerCode[i]+Environment.NewLine;}
+            textBox_PICOutput.Text += "    END" + Environment.NewLine; ;
             return;
         }
         protected int FindLabel(string s)
@@ -403,16 +193,6 @@ namespace OCREmulator
             TextBox_Info.Text = "Error! Label " + s + " not found!";
             return -1;
         }
-        protected int FindLabel_asm(string s)
-        {
-            for (int i = 0; i < micro.maxlabels; i++)
-            {
-                if (micro.labels[i] == s) return micro.labelvalues_code[i];
-            }
-            TextBox_Info.Text = "Error! Label " + s + " not found!";
-            return -1;
-        }
-
         protected void Reset()
         {
             micro.reset();
@@ -445,15 +225,18 @@ namespace OCREmulator
             {
                 s = "Invalid Register number " + s[1]; return false;
             }
-            if ((r < 0) || (r > 20))
+            if ((r < 0) || (r > 200))
             {
                 s = "Invalid Register number " + s[1]; return false;
             }
             return true;
         }
-        protected bool DecodeLine(ref string line, ref string label, ref string op, ref int Rs, ref int Rd, ref string data)
+        protected bool DecodeLine_old(ref string line, ref string label, ref string op, ref int Rs, ref int Rd, ref string data)
         {
             line = line.ToUpper();
+            if (line == "{") micro.InLineAssembler = true;
+            if (line == "}") micro.InLineAssembler = false;
+            if (micro.InLineAssembler) { op = ""; return true; }//done!
             int n = 0, k = 0;
             char[] c1 = new char[2]; c1[0] = (char)0x09; c1[1] = ' ';
             //strip comments
@@ -550,6 +333,8 @@ namespace OCREmulator
                     break;
                 case "JZ":
                     break;
+                case "JGT":
+                    break;
                 case "JNZ":
                     break;
                 case "RCALL":
@@ -564,9 +349,19 @@ namespace OCREmulator
                     if (!GetRegister(ref data, ref Rd)) { line = data; return false; }
                     data = "";
                     break;
+                case "RRF":
+                    if (!GetRegister(ref data, ref Rd)) { line = data; return false; }
+                    data = "";
+                    break;
+                case "RLF":
+                    if (!GetRegister(ref data, ref Rd)) { line = data; return false; }
+                    data = "";
+                    break;
                 //emulator only
                 case "EQUB": break;
                 case "BYTE": break;
+                case "BREAK": break;
+                case "TRISQ": break;//added as ext to tristate output port,,,S0 has bit mask  0 for out
 
 
                 default:
@@ -585,23 +380,32 @@ namespace OCREmulator
         }
         private void Step(bool updatedisplay)
         {
-
-
             //need to get the pc line of code........
             if (micro.maxcodelines == 0) { TextBox_Info.Text = "No code!"; return; }
             string line = micro.memory[micro.CurrentPC];
             string label = ""; int Rd = 0; int Rs = 0; string data = ""; string op = "";
-            if (!DecodeLine(ref line, ref label, ref op, ref Rs, ref Rd, ref data))
+            if (!serialP.DecodeLine(ref line, ref label, ref op, ref Rs, ref Rd, ref data))
             {
                 TextBox_Info.Text = "No such line"; return;
+            }
+            if (serialP.InLineAssembler)
+            {
+                UpdateView(updatedisplay);
+                micro.CurrentPC++;
+                TextBox_Info.Text = micro.memory[micro.CurrentPC];
+                return;
             }
             int imm = 0;
             if ((data == "READTABLE") && (op == "RCALL")) { op = "READTABLE"; data = ""; }
             if ((data == "READADC") && (op == "RCALL")) { op = "READADC"; data = ""; }
             if ((data == "WAIT1MS") && (op == "RCALL")) { op = "WAIT1MS"; data = ""; }
+            if ((data == "BREAK") && (op == "RCALL")) { op = "BREAK"; data = ""; }
+            // following are exensions.....
+            if ((data == "READEEPROM") && (op == "RCALL")) { op = "READEEPROM"; data = ""; }
+            if ((data == "WRITEEEPROM") && (op == "RCALL")) { op = "WRITEEEPROM"; data = ""; }
             if (data != "")
             {
-                if ((op == "JP") || (op == "JZ") || (op == "JNZ"))
+                if ((op == "JP") || (op == "JZ") || (op == "JNZ")||(op=="JGT")) //jgt is extension
                 {
                     imm = FindLabel(data);//is it a label....
                 }
@@ -632,14 +436,7 @@ namespace OCREmulator
             }
 
             micro.inport = int.Parse(textBox_InputPort.Text,  System.Globalization.NumberStyles.AllowHexSpecifier);
-            //try to see if we have the external hardware emulator there....
-            if (Has_External_Emulator && checkBox_ExtEmulator.Checked)
-            {
-                OpenDevice(0);
-                micro.inport = ReadAllDigital();
-                CloseDevice();
 
-            }
 
             if (!micro.execute(op, Rd, Rs, d1, ref line)) TextBox_Info.Text = "Error! " + line;
             UpdateView(updatedisplay);
@@ -673,9 +470,8 @@ namespace OCREmulator
                 try
                 {
                     System.IO.StreamReader mys = new System.IO.StreamReader(openFileDialog1.FileName);
-                    {
-                        ProgramText.Text = mys.ReadToEnd();
-                    }
+                    ProgramText.Text = mys.ReadToEnd();
+                    mys.Close();
                 }
                 catch (Exception ex)
                 {
@@ -795,9 +591,9 @@ namespace OCREmulator
                     sw1.Close();
                 }
             }
-            catch
+            catch (Exception e1)
             {
-
+                MessageBox.Show("File Save Error: " + e1.Message, "Save Error"); 
             }
         }
         private void button_SaveASM_Click(object sender, EventArgs e)
@@ -815,9 +611,9 @@ namespace OCREmulator
                     sw1.Close();
                 }
             }
-            catch
+            catch (Exception e1)
             {
-
+                MessageBox.Show("File Save Error: " + e1.Message, "Save Error");
             }
 
         }
@@ -828,16 +624,21 @@ namespace OCREmulator
 
         private void button_test_Click(object sender, EventArgs e)
         {
+            
+            //check the code parses
+            Button_Parse_Click();
+            //copy the current OCR code to the programmer...
             InCircuitProgramer f = new InCircuitProgramer();
-            Cross_Assemble();//check it is done
-            for (int i = 0; i < hexcode.Count(); i++)
-            {
-                f.hexcode[i] = hexcode[i];
-                if (hexcode[i] == null) { f.max_lines = i; break; }
-            }
-            f.source = ProgramText.Text;
+
+            for (int i = 0; i < micro.maxcodelines; i++) f.program1.OCRCode[i] = micro.memory[i];
+            f.program1.max_OCRlines = micro.maxcodelines;
             f.Setup();
             f.ShowDialog();
+        }
+
+        private void listBox_ProcessorType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
     [Serializable]
@@ -850,16 +651,30 @@ namespace OCREmulator
             {
                 return pc;
             }
+            set 
+            {
+                pc = value;
+            }
+
         }
         private byte[] r = new byte[20];
         private int[] stack = new int[8];
         private int sp = 0;
         private int Z;
+        private int C;
+        private byte c_temp;
         public int CurrentZ
         {
             get
             {
                 return Z;
+            }
+        }
+        public int CurrentC
+        {
+            get
+            {
+                return C;
             }
         }
         public int table = -1;
@@ -868,12 +683,14 @@ namespace OCREmulator
         public int adc = 0;
         public string[] memory = new string[255 * 4];//ben's mod
         public int maxcodelines = 0;                //OCR codelines
-        public int asmcodelines = 0;                // to remember how many lines of PIC code
+
         public string[] labels = new string[255];
         public int[] labelvalues = new int[255];
-        public int[] labelvalues_code = new int[255];
         public int maxlabels = 0;
         public int clock = 0;
+        public bool InLineAssembler = false;
+
+        public string[] eeprom_memory = new string[255]; //extension for Conor L
 
         public processor()
         {
@@ -900,25 +717,40 @@ namespace OCREmulator
             if (r[Rd] == 0) Z = 1; else Z = 0;
         }
 
-        public bool execute(string op, int Rd, int Rs, int data, ref string error)//ben's mod
+        public bool execute(string op, int Rd, int Rs, int data, ref string error)
         {
-            pc++; error = ""; clock++;
+            string s = "";
+            pc++; error = ""; clock++; 
             switch (op)
             {
                 case "": break;
                 case "MOVI": r[Rd] = (byte)data; setZ(Rd); break;
                 case "MOV": r[Rd] = r[Rs]; setZ(Rd); break;
                 case "ADD": r[Rd] = (byte)(r[Rd] + r[Rs]); setZ(Rd); break;
-                case "SUB": r[Rd] = (byte)(r[Rd] - r[Rs]); setZ(Rd); break;
+                case "SUB": if (r[Rs] > r[Rd]) C = 1; else C = 0; 
+                    r[Rd] = (byte)(r[Rd] - r[Rs]);
+                    setZ(Rd);  
+                    break;
                 case "AND": r[Rd] = (byte)(r[Rd] & r[Rs]); setZ(Rd); break;
                 case "EOR": r[Rd] = (byte)(r[Rd] ^ r[Rs]); setZ(Rd); break;
                 case "SHL": r[Rd] = (byte)(r[Rd] << 1); setZ(Rd); break;
                 case "SHR": r[Rd] = (byte)(r[Rd] >> 1); setZ(Rd); break;
+                case "RLF": c_temp = (byte)C;
+                    if ((r[Rd] & (byte)0x80) == 0x80) C = (byte)1; else C = 0; 
+                    r[Rd] = (byte)(r[Rd] << 1);
+                    if (c_temp == 1) r[Rd]++;
+                    break;
+                case "RRF": c_temp = (byte)C;
+                    C = r[Rd] & (byte)0x01; 
+                    r[Rd] = (byte)(r[Rd] >> 1); 
+                    if(c_temp == 1) r[Rd]=(byte)(r[Rd]+0x80);
+                    break;
                 case "INC": r[Rd]++; setZ(Rd); break;
                 case "DEC": r[Rd]--; setZ(Rd); break;
                 case "JP": pc = data; break;
                 case "JZ": if (Z == 1) pc = data; break;
                 case "JNZ": if (Z == 0) pc = data; break;
+                case "JGT": if (C != 0) pc = data; break;
                 case "RCALL": push(pc); pc = data; break;
                 case "RET": pc = pull(); break;
                 case "IN": r[Rd] = (byte)inport; break;
@@ -927,11 +759,14 @@ namespace OCREmulator
                     if (table < 0) { error = "Error - Table not setup!"; return false; }
                     try
                     {
-                        r[0] = (byte)System.Convert.ToInt16(memory[table + r[7]], 16);
+                        s = memory[table + r[7]]; //will be label /t   BYTE /t   nn
+                        int i = s.IndexOf("BYTE"); s = s.Substring(i + 4); i = 0;
+                        while (s[i] < 33) i++;
+                        r[0] = (byte)System.Convert.ToInt16(s.Substring(i), 16);
                     }
                     catch
                     {
-                        error = "Bad Lookup table value address:" + r[7].ToString() + "value:" + memory[r[7]].ToString(); return false;
+                        error = "Bad Lookup table value address:" + r[7].ToString() + "value:" + s; return false;
                     }
                     break;
 
@@ -939,6 +774,14 @@ namespace OCREmulator
                     r[0] = (byte)adc;
                     break;
                 case "WAIT1MS": clock += 999; break;
+                case "BREAK": break;
+                case "READEEPROM":
+                    s = eeprom_memory[r[7]];
+                    r[0] = (byte)System.Convert.ToInt16(s);
+                    break;
+                case "WRITEEEPROM":
+                    eeprom_memory[r[7]] = r[0].ToString();
+                    break;
 
                 default: error = "Unknown Op Code " + op; return false; break;
             }

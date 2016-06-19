@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -15,30 +15,36 @@
     <ManifestCertificateThumbprint>41150D693503404B00B5FF6E89BCDBD5C96E04B2</ManifestCertificateThumbprint>
     <ManifestKeyFile>OCREmulator_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <StartupObject>
     </StartupObject>
-    <PublishUrl>f:\OcrEmulator\deploy\</PublishUrl>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <PublishUrl>F:\Deploy code\ocrEmulator\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
+    <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>4</ApplicationRevision>
-    <ApplicationVersion>1.2.5.%2a</ApplicationVersion>
+    <TargetCulture>en-GB</TargetCulture>
+    <ProductName>OCR Emulator</ProductName>
+    <PublisherName>Chris Clare</PublisherName>
+    <SuiteName>OCR Emulator</SuiteName>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>40</ApplicationRevision>
+    <ApplicationVersion>1.7.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +64,9 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icon1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -76,6 +85,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BreakWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BreakWindow.designer.cs">
+      <DependentUpon>BreakWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChipPinout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChipPinout.Designer.cs">
+      <DependentUpon>ChipPinout.cs</DependentUpon>
+    </Compile>
     <Compile Include="EmulatorHelp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,11 +112,17 @@
     <Compile Include="InCircuitProgramer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InCircuitProgramer.Designer.cs">
+    <Compile Include="InCircuitProgramer.designer.cs">
       <DependentUpon>InCircuitProgramer.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="BreakWindow.resx">
+      <DependentUpon>BreakWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChipPinout.resx">
+      <DependentUpon>ChipPinout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EmulatorHelp.resx">
       <DependentUpon>EmulatorHelp.cs</DependentUpon>
     </EmbeddedResource>
@@ -137,16 +164,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="K8055D.dll" />
+    <None Include="Resources\Icon1.ico" />
     <Content Include="Support\EmulatorHelp.txt" />
-    <Content Include="Support\K8055D.dll" />
     <Content Include="Support\setup_16F73.txt" />
+    <None Include="Support\setup_16F8xx.txt" />
     <Content Include="Support\setup_16F876.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -174,6 +201,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FlowDiagrams\SerialProgrammer\SerialProgrammer.csproj">
+      <Project>{39FE70E8-7597-4F15-8C8E-0988A1D55382}</Project>
+      <Name>SerialProgrammer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

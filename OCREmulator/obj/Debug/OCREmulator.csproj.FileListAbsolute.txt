@@ -22,6 +22,43 @@ C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\De
 C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.application
 C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.exe
 C:\Users\cc\Documents\Visual Studio 2008\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.pdb
-D:\Users\Projects\OCREmulator\OCREmulator\bin\Debug\OCREmulator.exe.config
-D:\Users\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.exe
-D:\Users\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.pdb
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Debug\OCREmulator.exe.config
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Debug\OCREmulator.exe.manifest
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Debug\OCREmulator.application
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Debug\OCREmulator.exe
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Debug\OCREmulator.pdb
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Debug\SerialProgrammer.dll
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\bin\Debug\SerialProgrammer.pdb
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.csprojResolveAssemblyReference.cache
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.BreakWindow.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.ChipPinout.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.EmulatorHelp.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.Form1.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.InCircuitProgramer.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.Properties.Resources.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.Resource1.resources
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.csproj.GenerateResource.Cache
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.exe.manifest
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.application
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.exe
+C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.pdb
+D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\OCREmulator.exe.config
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.exe
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.pdb
+D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\OCREmulator.exe.manifest
+D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\OCREmulator.application
+D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\OCREmulator.exe
+D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\OCREmulator.pdb
+D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\SerialProgrammer.dll
+D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\SerialProgrammer.pdb
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.csprojResolveAssemblyReference.cache
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.BreakWindow.resources
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.ChipPinout.resources
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.EmulatorHelp.resources
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.Form1.resources
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.InCircuitProgramer.resources
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.Properties.Resources.resources
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.Resource1.resources
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.csproj.GenerateResource.Cache
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.exe.manifest
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.application
