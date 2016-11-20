@@ -234,6 +234,43 @@ Please flag errors!  There will be some!
 
 
 
+FOR PowerTip 1602 Display (2 line by 16 character lcd display)
+
+(Added for Ed Hui 2016)
+This was added in firmware version 2.8 - CHECK THIS. On the program screen enter the text message V and send tne command- you will get back
+the firmware version number. Must be 2.8 or greater.
+
+IFF (if and only if) you are using a 16F886, then the display can most conveniently be added to PORTA, 
+which isn't really used in normal OCR emulator use.
+You wire the display as follows:
+	display pin		16F866 pin
+	DB7 (pin 14)		9
+	DB6	(13)			10
+	DB5	(12)			7
+	DB4 (11)			6
+	E (6)				3
+	RW (5)				4
+	RS (4)				5
+	(no need to connect DB 0,1,2,3)
+	obviously also connect display Vdd and Vss and the lcd power (display pin 3)!
+
+Notice that this leaves most of the OCR pins available (ie all output port Q7-Q0, 6 bits of Input Port(I0-I5) and ADC)
+
+To initialise the display you do the following:
+	movi	S0,01
+	RCALL	SETUP_1602
+
+to send commands to the display, put the command byte in S0 and RCALL	write_cmd_1602,
+to send data to the display, put the data byte in S0 and RCALL	write_data_1602
+
+If you are adding a display to a 16F876 / 16F876A then you have to wire it up differntly and it takes up all the output port.
+In this case wire DB7 to Q7, DB6 to Q6.... etc and RS to pin4, RW to pin3 and E to pin 6.
+In this case initialise the display by 
+	movi	S0,00
+	RCALL	SETUP_1602
+Send commands and data as before.
+
+
 FOR WINSTAR WG12864A display:
 
 The following routines are icluded for Tristam Newman (U6in 2015/6) to drive the Winstar WG12864A display

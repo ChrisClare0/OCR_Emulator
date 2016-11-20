@@ -43,8 +43,6 @@ C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\De
 C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.exe
 C:\Users\cc\Documents\Visual Studio 2010\Projects\OCREmulator\OCREmulator\obj\Debug\OCREmulator.pdb
 D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\OCREmulator.exe.config
-D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.exe
-D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.pdb
 D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\OCREmulator.exe.manifest
 D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\OCREmulator.application
 D:\Users\chris\github\OCR_Emulator\OCREmulator\bin\Debug\OCREmulator.exe
@@ -62,3 +60,5 @@ D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.Resource1.r
 D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.csproj.GenerateResource.Cache
 D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.exe.manifest
 D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.application
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.exe
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Debug\OCREmulator.pdb

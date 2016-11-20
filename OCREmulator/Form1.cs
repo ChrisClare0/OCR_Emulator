@@ -362,6 +362,7 @@ namespace OCREmulator
                 case "BYTE": break;
                 case "BREAK": break;
                 case "TRISQ": break;//added as ext to tristate output port,,,S0 has bit mask  0 for out
+                case "EQUS": break;
 
 
                 default:
@@ -403,6 +404,9 @@ namespace OCREmulator
             // following are exensions.....
             if ((data == "READEEPROM") && (op == "RCALL")) { op = "READEEPROM"; data = ""; }
             if ((data == "WRITEEEPROM") && (op == "RCALL")) { op = "WRITEEEPROM"; data = ""; }
+            if ((data == "Setup_1602") && (op == "RCALL")) { op = "Setup_1602"; data = ""; }
+            if ((data == "WriteCmd_1602") && (op == "RCALL")) { op = "WriteCmd_1602"; data = ""; }
+            if ((data == "WriteData_1602") && (op == "RCALL")) { op = "WriteData_1602"; data = ""; }
             if (data != "")
             {
                 if ((op == "JP") || (op == "JZ") || (op == "JNZ")||(op=="JGT")) //jgt is extension
