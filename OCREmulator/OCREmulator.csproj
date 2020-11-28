@@ -220,12 +220,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\FlowDiagrams\SerialProgrammer\SerialProgrammer.csproj">
-      <Project>{39FE70E8-7597-4F15-8C8E-0988A1D55382}</Project>
-      <Name>SerialProgrammer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

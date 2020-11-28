@@ -1,9 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCREmulator", "OCREmulator\OCREmulator.csproj", "{1A548E1F-C988-4B78-9002-34110921676E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialProgrammer", "..\FlowDiagrams\SerialProgrammer\SerialProgrammer.csproj", "{39FE70E8-7597-4F15-8C8E-0988A1D55382}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialProgrammer", "SerialProgrammer\SerialProgrammer.csproj", "{39FE70E8-7597-4F15-8C8E-0988A1D55382}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {210BB032-A0F6-45B9-A471-4E030091FCF6}
 	EndGlobalSection
 EndGlobal
