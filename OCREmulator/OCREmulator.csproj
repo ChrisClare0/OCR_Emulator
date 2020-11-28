@@ -24,7 +24,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
-    <PublishUrl>F:\Deploy code\ocrEmulator\</PublishUrl>
+    <PublishUrl>F:\ocrEmulator\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -39,7 +39,7 @@
     <PublisherName>Chris Clare</PublisherName>
     <SuiteName>OCR Emulator</SuiteName>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>45</ApplicationRevision>
+    <ApplicationRevision>47</ApplicationRevision>
     <ApplicationVersion>1.7.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -85,6 +85,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BreakOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BreakOutForm.Designer.cs">
+      <DependentUpon>BreakOutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BreakWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test_Traverser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Test_Traverser.Designer.cs">
+      <DependentUpon>Test_Traverser.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BreakOutForm.resx">
+      <DependentUpon>BreakOutForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BreakWindow.resx">
       <DependentUpon>BreakWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -146,6 +161,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Test_Traverser.resx">
+      <DependentUpon>Test_Traverser.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="OCREmulator_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">

@@ -74,3 +74,4 @@ D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Release\OCREmulator.exe.manif
 D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Release\OCREmulator.application
 D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Release\OCREmulator.exe
 D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Release\OCREmulator.pdb
+D:\Users\chris\github\OCR_Emulator\OCREmulator\obj\Release\OCREmulator.BreakOutForm.resources

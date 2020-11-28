@@ -15,7 +15,9 @@ namespace OCREmulator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Test_Traverser());
+            //Application.Run(new BreakOutForm());
+            //Application.Run(new Form1());
         }
     }
 }
