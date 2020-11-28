@@ -4,7 +4,7 @@
   <description asmv2:iconFile="Resources\Icon1.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="OCREmulator" version="1.6.7468.31867" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="OCREmulator" version="1.6.7637.29448" language="neutral" processorArchitecture="msil" />
     <commandLine file="OCREmulator.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -16,14 +16,14 @@
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
         <!--
           UAC Manifest Options
-          If you want to change the Windows User Account Control level replace the 
+          If you want to change the Windows User Account Control level replace the
           requestedExecutionLevel node with one of the following.
 
         <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
         <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
         <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
 
-         If you want to utilize File and Registry Virtualization for backward 
+         If you want to utilize File and Registry Virtualization for backward
          compatibility then delete the requestedExecutionLevel node.
     -->
         <requestedExecutionLevel level="asInvoker" uiAccess="false" />
@@ -59,25 +59,25 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="OCREmulator.exe" size="154112">
-      <assemblyIdentity name="OCREmulator" version="1.6.7468.31867" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="OCREmulator" version="1.6.7637.29448" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>8aOThQR2fM9+G6Pt6f623lCPWBc=</dsig:DigestValue>
+        <dsig:DigestValue>aIXpn5M9cFl+jISnLOQ0gkZlaUw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SerialProgrammer.dll" size="38400">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SerialProgrammer.dll" size="37376">
       <assemblyIdentity name="SerialProgrammer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>I1ERiwYrWTs2o2RgKWD6ahI1cJ4=</dsig:DigestValue>
+        <dsig:DigestValue>JkDOPAvlem8Y6q0cBknvo9+UndY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

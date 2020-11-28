@@ -4,14 +4,14 @@
   <description asmv2:publisher="Chris Clare" co.v1:suiteName="OCR Emulator" asmv2:product="OCR Emulator" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" co.v1:createDesktopShortcut="true" />
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="OCREmulator.exe.manifest" size="6585">
+    <dependentAssembly dependencyType="install" codebase="OCREmulator.exe.manifest" size="6583">
       <assemblyIdentity name="OCREmulator.exe" version="1.7.1.47" publicKeyToken="0000000000000000" language="en-GB" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>tpuggTTncpWCGdTq+Lmj8fwKhNY=</dsig:DigestValue>
+        <dsig:DigestValue>Zoy+dBk/ifHTaWRiyt4gWJnIoSg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
